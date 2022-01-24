@@ -10,26 +10,14 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Food {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private int price;
-    private int weight;
-
-    @Enumerated(EnumType.STRING)
-    private FoodCategory foodCategory;
-
-
-
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private Orders orders;
+    private int score;
+    private String comment;
 
     @ManyToOne
     private Restaurant restaurant;

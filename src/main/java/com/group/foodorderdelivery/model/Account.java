@@ -17,6 +17,8 @@ public abstract class Account {
     protected String email;
     protected String username;
     protected String password;
+
+    @Enumerated(EnumType.STRING)
     protected Role role;
 
 }
