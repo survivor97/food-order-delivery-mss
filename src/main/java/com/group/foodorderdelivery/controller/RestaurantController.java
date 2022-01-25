@@ -1,16 +1,13 @@
 package com.group.foodorderdelivery.controller;
 
 import com.group.foodorderdelivery.model.Restaurant;
-import com.group.foodorderdelivery.model.User;
 import com.group.foodorderdelivery.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestaurantController {
@@ -27,6 +24,21 @@ public class RestaurantController {
     @GetMapping("/restaurants/all")
     public List<Restaurant> getAllRestaurants() {
         return restaurantService.findAll();
+    }
+
+    @GetMapping(value = "/restaurants", params = "id")
+    public Optional<Restaurant> getRestaurantById(@RequestParam Long id) {
+        return restaurantService.findById(id);
+    }
+
+    @GetMapping(value = "/restaurants", params = "searchName")
+    public List<Restaurant> getRestaurantById(@RequestParam String searchName) {
+        return restaurantService.findByNameContaining(searchName);
+    }
+
+    @GetMapping(value = "/restaurants", params = "searchFood")
+    public List<Restaurant> getRestaurantByFoodId(@RequestParam String searchFood) {
+        return restaurantService.findByFoodNameContaining(searchFood);
     }
 
     @GetMapping("/restaurants/nearby")

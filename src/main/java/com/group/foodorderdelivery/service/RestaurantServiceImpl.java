@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -41,6 +42,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public Optional<Restaurant> findById(Long id) {
+        return restaurantRepository.findById(id);
+    }
+
+    @Override
+    public List<Restaurant> findByNameContaining(String keyword) {
+        return restaurantRepository.findByNameContaining(keyword);
+    }
+
+    @Override
+    public List<Restaurant> findByFoodNameContaining(String keyword) {
+        return restaurantRepository.findByFoodNameContaining(keyword);
+    }
+
+    @Override
     public List<Restaurant> findNearbyUser() {
         LOGGER.info("Getting all restaurants nearby user...");
 
@@ -53,6 +69,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         username = ((UserDetails)principal).getUsername();
 
         LOGGER.info("CURRENT USER: " + username);
+        LOGGER.info("AUTHORITIES: " + ((UserDetails)principal).getAuthorities());
 
         double testLat = 44.419600;
         double testLong = 26.139513;

@@ -1,6 +1,5 @@
 package com.group.foodorderdelivery.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Data;
 
 import javax.persistence.*;

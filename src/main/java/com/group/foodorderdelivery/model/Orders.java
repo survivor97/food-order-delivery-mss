@@ -22,14 +22,12 @@ public class Orders {
     @ManyToOne
     private DeliveryUser deliveryUser;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private User user;
 
     @ManyToOne
     private Restaurant restaurant;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "orders_food",
             joinColumns =@JoinColumn(name="order_id",referencedColumnName = "id"),

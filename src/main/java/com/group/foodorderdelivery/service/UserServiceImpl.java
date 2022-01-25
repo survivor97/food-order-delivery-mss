@@ -32,4 +32,10 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Getting registered user list...");
         return userRepository.findAll();
     }
+
+    @Override
+    public User findByUsername(String username) {
+        LOGGER.info("Getting user by username...");
+        return findByUsername(username);
+    }
 }

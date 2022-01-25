@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends Account {
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Orders> orders;
 
