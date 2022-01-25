@@ -1,5 +1,6 @@
 package com.group.foodorderdelivery.config;
 
+import com.group.foodorderdelivery.model.Account;
 import com.group.foodorderdelivery.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +16,16 @@ public class UserPrincipal implements UserDetails {
 
     private Logger LOGGER = LoggerFactory.getLogger(UserPrincipal.class);
 
-    private User user;
+    private Account account;
 
-    public UserPrincipal(User user) {
-        this.user = user;
+    public UserPrincipal(Account account) {
+        this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("ROLE_" + this.user.getRole().name()));
+        authorityList.add(new SimpleGrantedAuthority("ROLE_" + this.account.getRole().name()));
         LOGGER.info("ROLE: " + authorityList.get(0));
 
         return authorityList;
@@ -32,12 +33,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return this.account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.account.getUsername();
     }
 
     @Override
