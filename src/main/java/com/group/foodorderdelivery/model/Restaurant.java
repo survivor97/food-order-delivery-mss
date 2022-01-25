@@ -1,5 +1,6 @@
 package com.group.foodorderdelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,16 +24,19 @@ public class Restaurant {
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Position location;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Food> food;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Orders> orders;
+
     @ManyToOne
     private RestaurantManager restaurantManager;
-
-    @OneToOne
-    private Orders orders;
 
 }

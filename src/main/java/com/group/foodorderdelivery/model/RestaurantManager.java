@@ -1,5 +1,6 @@
 package com.group.foodorderdelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RestaurantManager extends Account {
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "restaurantManager", cascade = CascadeType.ALL)
     private List<Restaurant> ownedRestaurant;
 

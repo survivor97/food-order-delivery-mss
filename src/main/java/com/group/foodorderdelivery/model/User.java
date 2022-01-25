@@ -1,13 +1,11 @@
 package com.group.foodorderdelivery.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -22,7 +20,10 @@ public class User extends Account {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Position orderLocation;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_favourite_food",
+            joinColumns =@JoinColumn(name="user_id",referencedColumnName = "id"),
+            inverseJoinColumns =@JoinColumn(name="food_id",referencedColumnName="id"))
     private List<Food> favouriteFood;
 
 }
