@@ -6,35 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Food {
+public class Position {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private int price;
-    private int weight;
-
-    @Enumerated(EnumType.STRING)
-    private FoodCategory foodCategory;
+    private double latitude;
+    private double longitude;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(mappedBy = "favouriteFood", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<User> user;
+    @OneToOne
+    private User user;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(mappedBy = "foodList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Orders> orders;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne
+    @OneToOne
     private Restaurant restaurant;
 
 }

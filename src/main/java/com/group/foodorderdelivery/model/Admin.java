@@ -8,6 +8,10 @@ import javax.persistence.Entity;
 
 @Entity
 @Data
+//@AllArgsConstructor
 @NoArgsConstructor
 public class Admin extends Account {
+
+
+
 }

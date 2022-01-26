@@ -1,6 +1,5 @@
 package com.group.foodorderdelivery.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +16,8 @@ public abstract class Account {
     protected String email;
     protected String username;
     protected String password;
+
+    @Enumerated(EnumType.STRING)
     protected Role role;
 
 }
