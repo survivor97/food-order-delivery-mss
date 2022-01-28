@@ -1,0 +1,23 @@
+version: "3"
+services:
+
+  db:
+    image: mariadb:latest
+    ports:
+    - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 5
+
+  main-application:
+    image: docker-food-order-delivery
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/main?createDatabaseIfNotExist=true
+    depends_on:
+      db:
+        condition: service_healthy

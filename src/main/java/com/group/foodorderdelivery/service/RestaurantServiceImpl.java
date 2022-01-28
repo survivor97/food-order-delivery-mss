@@ -1,16 +1,20 @@
 package com.group.foodorderdelivery.service;
 
 import com.group.foodorderdelivery.model.Restaurant;
+import com.group.foodorderdelivery.model.User;
 import com.group.foodorderdelivery.repository.RestaurantRepository;
+import com.group.foodorderdelivery.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +25,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private double maximumNearbyDistance;
 
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
+
+    private UserRepository userRepository;
 
     @Autowired
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository , @Value("${maximumNearbyDistance}") double maximumNearbyDistance) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, UserRepository userRepository, @Value("${maximumNearbyDistance}") double maximumNearbyDistance) {
         this.restaurantRepository = restaurantRepository;
+        this.userRepository = userRepository;
         this.maximumNearbyDistance = maximumNearbyDistance;
     }
 
@@ -59,33 +66,44 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Restaurant> findNearbyUser() {
         LOGGER.info("Getting all restaurants nearby user...");
+        LOGGER.info("Finding current user...");
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<GrantedAuthority> authorities = (List<GrantedAuthority>) ((UserDetails) principal).getAuthorities();
+        String username = ((UserDetails)principal).getUsername();
+        String role = authorities.get(0).toString();
+
+        if(!role.equals("ROLE_USER")) {
+            LOGGER.info("Current account role {" + role + "} is not USER!");
+            return new ArrayList<Restaurant>();    //return empty list
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        if(user.getOrderLocation() == null) {
+            LOGGER.info("User position not set!");
+            return new ArrayList<Restaurant>();    //return empty list
+        }
 
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<Restaurant> nearbyRestaurants = new ArrayList<>();
 
-        String username;
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        username = ((UserDetails)principal).getUsername();
-
-        LOGGER.info("CURRENT USER: " + username);
-        LOGGER.info("AUTHORITIES: " + ((UserDetails)principal).getAuthorities());
-
-        double testLat = 44.419600;
-        double testLong = 26.139513;
-
         for(int i=0; i<restaurants.size(); i++) {
-
+            if(restaurants.get(i).getLocation() == null) {
+                LOGGER.info("Restaurant " + i + " location: NOT SET");
+                continue;
+            }
             LOGGER.info("Restaurant " + i + " location: lat: " + restaurants.get(i).getLocation().getLatitude() + "; long: " + restaurants.get(i).getLocation().getLongitude());
+            LOGGER.info("User " + user.getEmail() + " location: lat: " + user.getOrderLocation().getLatitude() + "; long: " + user.getOrderLocation().getLongitude());
             LOGGER.info("Distance: " + distanceInKm(
-                    testLat,
-                    testLong,
+                    user.getOrderLocation().getLatitude(),
+                    user.getOrderLocation().getLongitude(),
                     restaurants.get(i).getLocation().getLatitude(),
                     restaurants.get(i).getLocation().getLongitude()));
 
             if(Double.compare(distanceInKm(
-                    testLat,
-                    testLong,
+                    user.getOrderLocation().getLatitude(),
+                    user.getOrderLocation().getLongitude(),
                     restaurants.get(i).getLocation().getLatitude(),
                     restaurants.get(i).getLocation().getLongitude()), maximumNearbyDistance) <= 0) {
                 nearbyRestaurants.add(restaurants.get(i));
@@ -93,7 +111,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         return nearbyRestaurants;
-
     }
 
     private double distanceInKm(double lat1, double lon1, double lat2, double lon2)

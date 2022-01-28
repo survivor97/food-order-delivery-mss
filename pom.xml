@@ -20,6 +20,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -77,6 +78,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>docker-food-order-delivery</finalName>
     </build>
 
 </project>

@@ -40,24 +40,28 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
         Admin admin = adminRepository.findByUsername(username);
         if(admin != null) {
+            LOGGER.info("Login - Admin user found!");
             UserPrincipal userPrincipal = new UserPrincipal(admin);
             return userPrincipal;
         }
 
         RestaurantManager restaurantManager = restaurantManagerRepository.findByUsername(username);
         if(restaurantManager != null) {
+            LOGGER.info("Login - Restaurant Manager user found!");
             UserPrincipal userPrincipal = new UserPrincipal(restaurantManager);
             return userPrincipal;
         }
 
         User user = userRepository.findByUsername(username);
         if(user != null) {
+            LOGGER.info("Login - User found!");
             UserPrincipal userPrincipal = new UserPrincipal(user);
             return userPrincipal;
         }
 
         DeliveryUser deliveryUser = deliveryUserRepository.findByUsername(username);
         if(deliveryUser != null) {
+            LOGGER.info("Login - Delivery User found!");
             UserPrincipal userPrincipal = new UserPrincipal(deliveryUser);
             return userPrincipal;
         }

@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    ReviewRepository reviewRepository;
+    private ReviewRepository reviewRepository;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;

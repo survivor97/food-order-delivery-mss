@@ -26,7 +26,7 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("ROLE_" + this.account.getRole().name()));
-        LOGGER.info("ROLE: " + authorityList.get(0));
+        LOGGER.info("Login Role: " + authorityList.get(0));
 
         return authorityList;
     }

@@ -21,7 +21,7 @@ public class Restaurant {
     private String name;
     private String description;
 
-    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Position location;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

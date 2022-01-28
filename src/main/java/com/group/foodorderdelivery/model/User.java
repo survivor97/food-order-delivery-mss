@@ -18,7 +18,7 @@ public class User extends Account {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Orders> orders;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Position orderLocation;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
