@@ -1,7 +1,9 @@
 package com.group.foodorderdelivery.service;
 
 import com.group.foodorderdelivery.model.Restaurant;
+import com.group.foodorderdelivery.model.RestaurantManager;
 import com.group.foodorderdelivery.model.User;
+import com.group.foodorderdelivery.repository.RestaurantManagerRepository;
 import com.group.foodorderdelivery.repository.RestaurantRepository;
 import com.group.foodorderdelivery.repository.UserRepository;
 import org.slf4j.Logger;
@@ -26,13 +28,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     private double maximumNearbyDistance;
 
     private RestaurantRepository restaurantRepository;
-
     private UserRepository userRepository;
+    private RestaurantManagerRepository restaurantManagerRepository;
 
     @Autowired
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, UserRepository userRepository, @Value("${maximumNearbyDistance}") double maximumNearbyDistance) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository,
+                                 UserRepository userRepository,
+                                 RestaurantManagerRepository restaurantManagerRepository,
+                                 @Value("${maximumNearbyDistance}") double maximumNearbyDistance) {
         this.restaurantRepository = restaurantRepository;
         this.userRepository = userRepository;
+        this.restaurantManagerRepository = restaurantManagerRepository;
         this.maximumNearbyDistance = maximumNearbyDistance;
     }
 
@@ -111,6 +117,25 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         return nearbyRestaurants;
+    }
+
+    @Override
+    public Restaurant setRestaurantManager(Long restaurantId, Long restaurantManagerId) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+        if(!restaurant.isPresent()) {
+            LOGGER.info("Restaurant with id {" + restaurantId + "} not found!");
+            return null;
+        }
+
+        Optional<RestaurantManager> restaurantManager = restaurantManagerRepository.findById(restaurantManagerId);
+        if(!restaurantManager.isPresent()) {
+            LOGGER.info("Restaurant manager with id {" + restaurantManagerId + "} not found!");
+            return null;
+        }
+
+        restaurant.get().setRestaurantManager(restaurantManager.get());
+        restaurantRepository.save(restaurant.get());
+        return restaurant.get();
     }
 
     private double distanceInKm(double lat1, double lon1, double lat2, double lon2)

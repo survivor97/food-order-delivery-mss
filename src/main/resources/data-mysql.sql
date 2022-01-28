@@ -11,9 +11,9 @@ insert into restaurant_manager (email, first_name, last_name, password, role, us
 insert into restaurant_manager (email, first_name, last_name, password, role, username) values ('restaurant_manager_4@mail.com', 'Restaurant', 'Managerc', '$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'RESTAURANT_MANAGER', 'restaurant_manager_4');
 
 
-insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_1@mail.com', 'Ellie', 'Nora', '$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery');
-insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_2@mail.com', 'Aria', 'Zoey', '$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery_2');
-insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_3@mail.com', 'William', 'Denver', '$$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery_3');
+insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_1@mail.com', 'Ellie', 'Nora', '$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery_user');
+insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_2@mail.com', 'Aria', 'Zoey', '$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery_user_2');
+insert into delivery_user (email, first_name, last_name, password, role, username) values ('delivery_user_3@mail.com', 'William', 'Denver', '$$2a$12$Wdo1wdk0/Uakw9uSsqpp2Oza1UYIpOK97o5eIPCXiTXvhi2hwj5jG', 'DELIVERY_USER', 'delivery_user_3');
 
 insert into restaurant (description, name, restaurant_manager_id) values ('Restaurant A Description', 'Restaurant A', 1);
 insert into restaurant (description, name, restaurant_manager_id) values ('Restaurant B Description', 'Restaurant B', 2);

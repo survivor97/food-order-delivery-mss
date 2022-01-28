@@ -3,6 +3,7 @@ package com.group.foodorderdelivery.controller;
 import com.group.foodorderdelivery.model.Restaurant;
 import com.group.foodorderdelivery.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,17 @@ public class RestaurantController {
     public ResponseEntity<?> insertRestaurant(@RequestBody Restaurant restaurant) {
         restaurantService.save(restaurant);
         return ResponseEntity.ok().body(restaurant.getId());
+    }
+
+    @PostMapping("/restaurants/setManager")
+    public ResponseEntity<?> setManager(@RequestParam Long restaurantId, @RequestParam Long managerId) {
+        Restaurant restaurant = restaurantService.setRestaurantManager(restaurantId, managerId);
+        if(restaurant != null) {
+            return ResponseEntity.ok().body(restaurant.getId());
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Problems in the post request!");
+        }
     }
 
     @GetMapping("/restaurants/all")
