@@ -15,5 +15,6 @@ public interface OrderService {
     Orders newOrder(Long userId, Long restaurantId, List<Food> foodList);
     Orders setOrderStatus(Long orderId, OrderStatus orderStatus);
     Optional<Orders> findById(Long id);
+    Orders setDeliveryUser(Long orderId, Long deliveryUserId);
 
 }

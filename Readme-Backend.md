@@ -1,7 +1,7 @@
 
 # Food Order and Delivery - Back End ReadMe
 ## About
-This is the back-end documentation for the Food Order and Delivery App - University Project - Software Modelling
+This is the back-end documentation for the Food Order and Delivery App - University Project - Software Modeling
 
 
 ## Endpoints
@@ -12,6 +12,7 @@ GET:
 
     /login                              - returns account role; using Basic Auth
     /users/all                          - returns all users
+    /users/current                      - return the current user
     /deliveryUsers/all                  - returns all delivery users
     /restaurantManagers/all             - returns all restaurant managers    
     /reviews/all                        - returns all reviews
@@ -37,8 +38,7 @@ POST:
         "lastName": "Collen",
         "email": "email@email.com",
         "username": "username",
-        "password": "password",
-        "role": "USER"
+        "password": "password"
     }
     
     /registerRestaurantManager          - On success, returns the restaurant manager id
@@ -47,8 +47,7 @@ POST:
         "lastName": "Collen",
         "email": "email@email.com",
         "username": "username",
-        "password": "password",
-        "role": "RESTAURANT_MANAGER"
+        "password": "password"
     }
     
     /registerDeliveryUser               - On success, returns the delivery user id
@@ -57,8 +56,7 @@ POST:
         "lastName": "Collen",
         "email": "email@email.com",
         "username": "username",
-        "password": "password",
-        "role": "DELIVERY_USER"
+        "password": "password"
     }
     
     /restaurants/insert                 - On success, returns the restaurant id

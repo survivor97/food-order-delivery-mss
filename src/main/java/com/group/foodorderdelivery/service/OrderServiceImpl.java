@@ -1,10 +1,7 @@
 package com.group.foodorderdelivery.service;
 
 import com.group.foodorderdelivery.model.*;
-import com.group.foodorderdelivery.repository.FoodRepository;
-import com.group.foodorderdelivery.repository.OrderRepository;
-import com.group.foodorderdelivery.repository.RestaurantRepository;
-import com.group.foodorderdelivery.repository.UserRepository;
+import com.group.foodorderdelivery.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,17 +19,20 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
     private FoodRepository foodRepository;
+    private DeliveryUserRepository deliveryUserRepository;
 
     Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             UserRepository userRepository,
                             RestaurantRepository restaurantRepository,
-                            FoodRepository foodRepository) {
+                            FoodRepository foodRepository,
+                            DeliveryUserRepository deliveryUserRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
         this.foodRepository = foodRepository;
+        this.deliveryUserRepository = deliveryUserRepository;
     }
 
     @Override
@@ -95,6 +95,25 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Optional<Orders> findById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    @Override
+    public Orders setDeliveryUser(Long orderId, Long deliveryUserId) {
+        Optional<Orders> order = orderRepository.findById(orderId);
+        if(!order.isPresent()) {
+            LOGGER.info("Order not found!");
+            return null;
+        }
+
+        Optional<DeliveryUser> deliveryUser = deliveryUserRepository.findById(deliveryUserId);
+        if(!deliveryUser.isPresent()) {
+            LOGGER.info("Delivery user not found!");
+            return null;
+        }
+
+        order.get().setDeliveryUser(deliveryUser.get());
+        orderRepository.save(order.get());
+        return order.get();
     }
 
     @Override

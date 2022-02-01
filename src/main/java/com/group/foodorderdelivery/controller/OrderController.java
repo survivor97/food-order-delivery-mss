@@ -51,4 +51,13 @@ public class OrderController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Problems in the post request!");
     }
+
+    @PostMapping(value = "orders/setDeliveryUser")
+    public ResponseEntity<?> setDeliveryUser(@RequestParam Long orderId, @RequestParam Long deliveryUserId) {
+        Orders order = orderService.setDeliveryUser(orderId, deliveryUserId);
+        if(order != null) {
+            return ResponseEntity.ok().body(order.getId());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Problems in the post request!");
+    }
 }

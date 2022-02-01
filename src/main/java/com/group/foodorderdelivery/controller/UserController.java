@@ -17,6 +17,7 @@ public class UserController {
 
     @PostMapping("/registerUser")
     public ResponseEntity<?> insertUser(@RequestBody User user) {
+        user.setRole(Role.USER);
         userService.save(user);
         return ResponseEntity.ok().body(user.getId());
     }
@@ -24,6 +25,11 @@ public class UserController {
     @GetMapping("/users/all")
     public List<User> getUsers() {
         return userService.findAll();
+    }
+
+    @GetMapping("/users/current")
+    public User getCurrentUser() {
+        return userService.getCurrentUser();
     }
 
 }
